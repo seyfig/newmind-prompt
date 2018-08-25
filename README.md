@@ -36,3 +36,14 @@ rosdep update
 mkdir catkin_ws
 ```
 
+## 3. Create a Catkin Workspace
+```
+source /opt/ros/kinetic/setup.bash
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
+catkin_make
+source devel/setup.bash
+```
+
+
+
