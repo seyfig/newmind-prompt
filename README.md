@@ -54,7 +54,8 @@ catkin_create_pkg newmind_test
 
 
 ## 5. Create ImageAnalyzer.action
-with content
+[actionlib](http://wiki.ros.org/actionlib)
+### 5.1. Create the action file with the following content
 ```
 # Define the goal
 bool mode  # Specify the mode
@@ -66,3 +67,21 @@ float32[] color # Color
 # N/A
 ```
 
+### 5.2. CMakeLists.txt
+Add following lines to the CMakeLists.txt before catkin_package().
+```
+find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
+add_action_files(DIRECTORY action FILES ImageAnalyzer.action)
+generate_messages(DEPENDENCIES actionlib_msgs)
+```
+
+### 5.3. package.xml
+
+package.xml should include the following dependencies.
+
+```
+<build_depend>actionlib</build_depend>
+<build_depend>actionlib_msgs</build_depend>
+<exec_depend>actionlib</exec_depend>
+<exec_depend>actionlib_msgs</exec_depend>
+```
