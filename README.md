@@ -45,5 +45,24 @@ catkin_make
 source devel/setup.bash
 ```
 
+## 4. Create a ROS package called “newmind_test”.
 
+```
+cd ~/catkin_ws/src
+catkin_create_pkg newmind_test
+```
+
+
+## 5. Create ImageAnalyzer.action
+with content
+```
+# Define the goal
+bool mode  # Specify the mode
+---
+# Define the result
+float32[] color # Color
+---
+# Define a feedback message
+# N/A
+```
 

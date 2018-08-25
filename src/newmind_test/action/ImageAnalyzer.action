@@ -1,0 +1,8 @@
+# Define the goal
+bool mode  # Specify the mode
+---
+# Define the result
+float32[] color # Color
+---
+# Define a feedback message
+# N/A
