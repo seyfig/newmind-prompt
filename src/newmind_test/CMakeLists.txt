@@ -98,10 +98,13 @@ find_package(catkin REQUIRED)
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
+
+find_package(catkin REQUIRED COMPONENTS actionlib_msgs)
+#find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
 add_action_files(DIRECTORY action FILES ImageAnalyzer.action)
-generate_messages(DEPENDENCIES actionlib_msgs)
+generate_messages(DEPENDENCIES actionlib_msgs std_msgs)
 catkin_package(
+  CATKIN_DEPENDS actionlib_msgs
 #  INCLUDE_DIRS include
 #  LIBRARIES newmind_test
 #  CATKIN_DEPENDS other_catkin_pkg

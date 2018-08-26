@@ -55,6 +55,7 @@ catkin_create_pkg newmind_test
 
 ## 5. Create ImageAnalyzer.action
 [actionlib](http://wiki.ros.org/actionlib)
+[Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28ExecuteCallbackMethod%29)
 ### 5.1. Create the action file with the following content
 ```
 # Define the goal
@@ -70,9 +71,15 @@ float32[] color # Color
 ### 5.2. CMakeLists.txt
 Add following lines to the CMakeLists.txt before catkin_package().
 ```
-find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
+find_package(catkin REQUIRED COMPONENTS actionlib_msgs)
 add_action_files(DIRECTORY action FILES ImageAnalyzer.action)
-generate_messages(DEPENDENCIES actionlib_msgs)
+generate_messages(DEPENDENCIES actionlib_msgs std_msgs)
+```
+Add actionlib_msgs to catkin_package macro
+```
+catkin_package(
+  CATKIN_DEPENDS actionlib_msgs
+)
 ```
 
 ### 5.3. package.xml
@@ -80,8 +87,9 @@ generate_messages(DEPENDENCIES actionlib_msgs)
 package.xml should include the following dependencies.
 
 ```
-<build_depend>actionlib</build_depend>
+<exec_depend>message_generation</exec_depend>
 <build_depend>actionlib_msgs</build_depend>
-<exec_depend>actionlib</exec_depend>
 <exec_depend>actionlib_msgs</exec_depend>
+<build_depend>actionlib</build_depend>
+<exec_depend>actionlib</exec_depend>
 ```
