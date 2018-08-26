@@ -12,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
   message_generation
   roscpp
-  rospy
   std_msgs
 )
 
@@ -105,7 +104,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES newmind_test
-#  CATKIN_DEPENDS actionlib actionlib_msgs message_generation roscpp rospy std_msgs
+#  CATKIN_DEPENDS actionlib actionlib_msgs message_generation roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -135,6 +134,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/newmind_test_node.cpp)
 add_executable(image_analyzer_server src/image_analyzer_server.cpp)
+add_executable(image_analyzer_client src/image_analyzer_client.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -149,13 +149,22 @@ add_dependencies(
   ${newmind_test_EXPORTED_TARGETS}
 )
 
+add_dependencies(
+  image_analyzer_client
+  ${newmind_test_EXPORTED_TARGETS}
+)
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(
-# ${PROJECT_NAME}_node
   image_analyzer_server
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  image_analyzer_client
   ${catkin_LIBRARIES}
 )
 

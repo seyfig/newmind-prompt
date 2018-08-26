@@ -49,7 +49,7 @@ source devel/setup.bash
 
 ```
 cd ~/catkin_ws/src
-catkin_create_pkg newmind_test
+catkin_create_pkg newmind_test actionlib message_generation roscpp rospy std_msgs actionlib_msgs
 ```
 
 
@@ -75,6 +75,9 @@ find_package(catkin REQUIRED COMPONENTS actionlib_msgs)
 add_action_files(DIRECTORY action FILES ImageAnalyzer.action)
 generate_messages(DEPENDENCIES actionlib_msgs std_msgs)
 ```
+
+TODOD
+didnt do it
 Add actionlib_msgs to catkin_package macro
 ```
 catkin_package(
@@ -82,21 +85,12 @@ catkin_package(
 )
 ```
 
-### 5.3. package.xml
 
-package.xml should include the following dependencies.
 
-```
-<exec_depend>message_generation</exec_depend>
-<build_depend>actionlib_msgs</build_depend>
-<exec_depend>actionlib_msgs</exec_depend>
-<build_depend>actionlib</build_depend>
-<exec_depend>actionlib</exec_depend>
-```
+## 6. Server and Client
 
-## 6. Server
-
-### 6.2. CMakeLists.txt
+### 6.1. Server
+#### 6.1.2. CMakeLists.txt
 ```
 add_executable(image_analyzer_server src/image_analyzer_server.cpp)
 ```
@@ -113,4 +107,26 @@ add_dependencies(
   image_analyzer_server
   ${newmind_test_EXPORTED_TARGETS}
 )
+```
+
+### 6.2. Client
+#### 6.1.2. CMakeLists.txt
+
+
+```
+add_executable(image_analyzer_client src/image_analyzer_client.cpp)
+```
+```
+target_link_libraries(
+  image_analyzer_client
+  ${catkin_LIBRARIES}
+)
+```
+
+```
+add_dependencies(
+  image_analyzer_client
+  ${newmind_test_EXPORTED_TARGETS}
+)
+
 ```

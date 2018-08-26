@@ -33,7 +33,7 @@ public:
     bool success = true;
 
     // publish info to the console for the user
-    ROS_INFO("%s: Executing, creating fibonacci sequence of order %s", action_name_.c_str(), (goal->mode ? "true" : "false"));
+    ROS_INFO("%s: Executing, mode: %s", action_name_.c_str(), (goal->mode ? "true" : "false"));
 
     // check that preempt has not been requested by the client
     if (as_.isPreemptRequested() || !ros::ok())
@@ -47,13 +47,16 @@ public:
 
     if(success)
     {
+      ROS_INFO("%s: Succeeded START", action_name_.c_str());
       result_.color[0] = 5.0;
       result_.color[1] = 5.0;
       result_.color[2] = 5.0;
       //[5,5,5];
-      ROS_INFO("%s: Succeeded", action_name_.c_str());
+      ROS_INFO("%s: Succeeded SET", action_name_.c_str());
       // set the action state to succeeded
       as_.setSucceeded(result_);
+
+      ROS_INFO("%s: Succeeded END", action_name_.c_str());
     }
   }
 
@@ -65,7 +68,7 @@ public:
 int main(int argc, char** argv)
 {
   ROS_INFO("Init IA server");
-  ros::init(argc, argv, "image_analzer");
+  ros::init(argc, argv, "image_analzer_server");
   ROS_INFO("Constructor IA server");
   ImageAnalyzerAction imageAnalyzerServer("image_analzer");
   ROS_INFO("Created IA server instance");
