@@ -48,13 +48,20 @@ public:
     if(success)
     {
       ROS_INFO("%s: Succeeded START", action_name_.c_str());
-      result_.color[0] = 5.0;
-      result_.color[1] = 5.0;
-      result_.color[2] = 5.0;
+      result_.color.clear();
+      result_.color.push_back(5.0);
+      result_.color.push_back(5.0);
+      result_.color.push_back(5.0);
       //[5,5,5];
       ROS_INFO("%s: Succeeded SET", action_name_.c_str());
       // set the action state to succeeded
       as_.setSucceeded(result_);
+
+      for (int i = 0; i < 3; i++) {
+        ROS_INFO("%d. %f",i,result_.color[i]);
+      }
+      //ROS_INFO(result_.color);
+      //ROS_INFO(result_);
 
       ROS_INFO("%s: Succeeded END", action_name_.c_str());
     }

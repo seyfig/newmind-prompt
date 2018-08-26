@@ -30,6 +30,10 @@ int main (int argc, char **argv)
   {
     actionlib::SimpleClientGoalState state = ac.getState();
     ROS_INFO("Action finished: %s",state.toString().c_str());
+    newmind_test::ImageAnalyzerResultConstPtr result_ = ac.getResult();
+    for (int i = 0; i < 3; i++) {
+      ROS_INFO("%d. %f",i,result_->color[i]);
+    }
     //TODO goal doesnt have color, result has
     //ROS_INFO(goal.color);
   }
