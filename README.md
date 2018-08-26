@@ -55,7 +55,7 @@ catkin_create_pkg newmind_test
 
 ## 5. Create ImageAnalyzer.action
 [actionlib](http://wiki.ros.org/actionlib)
-[Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28ExecuteCallbackMethod%29)
+[Server Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28ExecuteCallbackMethod%29)
 ### 5.1. Create the action file with the following content
 ```
 # Define the goal
@@ -92,4 +92,25 @@ package.xml should include the following dependencies.
 <exec_depend>actionlib_msgs</exec_depend>
 <build_depend>actionlib</build_depend>
 <exec_depend>actionlib</exec_depend>
+```
+
+## 6. Server
+
+### 6.2. CMakeLists.txt
+```
+add_executable(image_analyzer_server src/image_analyzer_server.cpp)
+```
+
+```
+target_link_libraries(
+  image_analyzer_server
+  ${catkin_LIBRARIES}
+)
+```
+
+```
+add_dependencies(
+  image_analyzer_server
+  ${newmind_test_EXPORTED_TARGETS}
+)
 ```
