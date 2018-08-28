@@ -139,3 +139,17 @@ add_dependencies(
 )
 
 ```
+
+## 11. Test
+
+With mode = true
+```
+roslaunch newmind_test test.launch
+```
+
+
+With mode = false
+
+```
+roslaunch newmind_test test.launch mode:=false
+```

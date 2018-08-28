@@ -18,7 +18,19 @@ int main (int argc, char **argv)
   ROS_INFO("Action server started, sending goal.");
   // send a goal to the action
   newmind_test::ImageAnalyzerGoal goal;
-  goal.mode = true;
+  ros::NodeHandle n;
+  bool mode_param;
+  if (n.getParam("mode", mode_param))
+  {
+    //ROS_INFO("Got param: %s", (mode_param ? "true" : "false"));
+    goal.mode = mode_param;
+  }
+  else
+  {
+    ROS_ERROR("Failed to get param 'mode', continue as if it is true");
+    goal.mode = true;
+  }
+
 
   ROS_INFO("Sending goal with mode %s", (goal.mode ? "true" : "false"));
   ac.sendGoal(goal);

@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <launch>
+	<arg name="mode" default="true"/>
+	<param name="mode" value="$(arg mode)" />
 	<node name="image_analyzer_server" pkg="newmind_test" type="image_analyzer_server"/>
 	<node name="image_analyzer_client" pkg="newmind_test" type="image_analyzer_client" output="screen"/>
 </launch>
