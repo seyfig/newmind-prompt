@@ -1,148 +1,51 @@
-## 2. Install ROS and OpenCV
+[//]: # (References)
+[1]: ./REPORT.md "Report"
 
-### 2.1. Install ROS Kinetic  [http://wiki.ros.org/kinetic/Installation/Ubuntu]
+# newmind-prompt
+## Project
 
-#### Setup your sources.list
-```
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-```
+The goal of this project is to complete the task of the newmind-prompt document.
 
-#### Set up your keys
-```
-sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-```
+A more detailed report can be found in [Report][1].  
 
-#### Make Debian package list Up-to-date 
-```
-sudo apt-get update
-```
+The steps were completed on a Virtual Machine Ubuntu Ubuntu 16.04.5 LTS with 4 CPU Cores (i5-3427U CPU @ 1.80GHz × 4) and 2.5GB RAM.
 
-#### Install ROS-Base (Bare Bones)
-TODO
-It should be enough
-```
-sudo apt-get install ros-kinetic-ros-base
-```
+## Requirements
 
-#### Initilize rosdep
+### ROS Kinetic
 
-```
-sudo rosdep init
-rosdep update
-```
+The project was completed with ROS kinetic.
 
-#### Create Project Folder
-```
-mkdir catkin_ws
-```
+### OpenCV
 
-### 2.2. Install Opencv
-```
-sudo	apt-get	install	ros-kinetic-opencv3
-```
+The project utilizes ros-kinetic-opencv3 library.
 
-## 3. Create a Catkin Workspace
+## Run
+### 1. Requirements
+In order to run the project it is required to install the requirements.
+### 2. Clone 
+Clone the repository under catkin_ws folder
+### 3. Source ros
 ```
 source /opt/ros/kinetic/setup.bash
-mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/
+```
+### 4. Catkin Make
+```
 catkin_make
+```
+
+### 5. Source project
+```
 source devel/setup.bash
 ```
 
-## 4. Create a ROS package called “newmind_test”.
+### 6. Image file
+The project searches for an image file called 1.jpg under the img folder of the src folder (src/img/1.jpg). This location was hard coded currently. To test with a different image, it is required to replace the 1.jpg file.
 
-```
-cd ~/catkin_ws/src
-catkin_create_pkg newmind_test actionlib message_generation roscpp rospy std_msgs actionlib_msgs
-```
+### 7. Launch file
+There is a mode parameter to select how to search for the common pixel. If this parameter is true, the image_analyzer_server node finds the most common pixel color, and the least common pixel color otherwise.
 
-
-## 5. Create ImageAnalyzer.action
-[actionlib](http://wiki.ros.org/actionlib)
-[Server Execute Callback Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28ExecuteCallbackMethod%29)
-
-[Server Goal Callback Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28GoalCallbackMethod%29)
-
-[Client Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionClient)
-### 5.1. Create the action file with the following content
-```
-# Define the goal
-bool mode  # Specify the mode
----
-# Define the result
-float32[] color # Color
----
-# Define a feedback message
-# N/A
-```
-
-### 5.2. CMakeLists.txt
-Add following lines to the CMakeLists.txt before catkin_package().
-```
-find_package(catkin REQUIRED COMPONENTS actionlib_msgs)
-add_action_files(DIRECTORY action FILES ImageAnalyzer.action)
-generate_messages(DEPENDENCIES actionlib_msgs std_msgs)
-```
-
-TODOD
-didnt do it
-Add actionlib_msgs to catkin_package macro
-```
-catkin_package(
-  CATKIN_DEPENDS actionlib_msgs
-)
-```
-
-
-
-## 6. Server and Client
-
-### 6.1. Server
-#### 6.1.2. CMakeLists.txt
-```
-add_executable(image_analyzer_server src/image_analyzer_server.cpp)
-```
-
-```
-target_link_libraries(
-  image_analyzer_server
-  ${catkin_LIBRARIES}
-)
-```
-
-```
-add_dependencies(
-  image_analyzer_server
-  ${newmind_test_EXPORTED_TARGETS}
-)
-```
-
-### 6.2. Client
-#### 6.1.2. CMakeLists.txt
-
-
-```
-add_executable(image_analyzer_client src/image_analyzer_client.cpp)
-```
-```
-target_link_libraries(
-  image_analyzer_client
-  ${catkin_LIBRARIES}
-)
-```
-
-```
-add_dependencies(
-  image_analyzer_client
-  ${newmind_test_EXPORTED_TARGETS}
-)
-
-```
-
-## 11. Test
-
-With mode = true
+Run with mode = true, since true is the default value there is no need to supply the argument.
 ```
 roslaunch newmind_test test.launch
 ```
@@ -153,3 +56,6 @@ With mode = false
 ```
 roslaunch newmind_test test.launch mode:=false
 ```
+
+## The Most (or Least) Common Pixel Color
+To find the most common or least common pixel color, the image_analyzer_server node creates a dictionary and counts the occurrence of each color performing pixel by pixel search. 
