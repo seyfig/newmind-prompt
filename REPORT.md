@@ -176,10 +176,18 @@ The launch file starts the image_analyzer_server first, and the image_analyzer_c
 ### 1. Requirements
 In order to run the project it is required to install the requirements.
 ### 2. Clone
+Clone the repository under any folder. Clonning will create "newmind-prompt" folder, and it will become the working folder.
 
-Clone the repository under catkin_ws folder
+```
+git clone https://github.com/seyfig/newmind-prompt.git
+```
 
-### 3. Source ros
+Change folder to newmind-prompt
+```
+cd newmind-prompt
+```
+
+### 3. Source ros (! This isn't required if it is already sourced)
 ```
 source /opt/ros/kinetic/setup.bash
 ```
