@@ -31,11 +31,12 @@ int main (int argc, char **argv)
     actionlib::SimpleClientGoalState state = ac.getState();
     ROS_INFO("Action finished: %s",state.toString().c_str());
     newmind_test::ImageAnalyzerResultConstPtr result_ = ac.getResult();
-    for (int i = 0; i < 3; i++) {
-      ROS_INFO("%d. %f",i,result_->color[i]);
-    }
-    //TODO goal doesnt have color, result has
-    //ROS_INFO(goal.color);
+    printf("The %s common color is B:%.2f, G:%.2f, R:%.2f (mode is %s)\n",
+      (goal.mode ? "most" : "least"),
+      result_->color[0],
+      result_->color[1],
+      result_->color[2],
+      (goal.mode ? "true" : "false"));
   }
   else
     ROS_INFO("Action did not finish before the time out.");

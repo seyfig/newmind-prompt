@@ -60,7 +60,11 @@ catkin_create_pkg newmind_test actionlib message_generation roscpp rospy std_msg
 
 ## 5. Create ImageAnalyzer.action
 [actionlib](http://wiki.ros.org/actionlib)
-[Server Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28ExecuteCallbackMethod%29)
+[Server Execute Callback Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28ExecuteCallbackMethod%29)
+
+[Server Goal Callback Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionServer%28GoalCallbackMethod%29)
+
+[Client Tutorial](http://wiki.ros.org/actionlib_tutorials/Tutorials/SimpleActionClient)
 ### 5.1. Create the action file with the following content
 ```
 # Define the goal

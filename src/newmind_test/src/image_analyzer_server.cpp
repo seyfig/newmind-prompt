@@ -22,7 +22,7 @@ public:
     as_(nh_, name, boost::bind(&ImageAnalyzerAction::executeCB, this, _1), false),
     action_name_(name)
   {
-    ROS_INFO("IA Constructor called");
+    ROS_INFO("Creating Image Analyzer server instance");
     as_.start();
   }
 
@@ -51,9 +51,18 @@ public:
 
     if(success)
     {
-      ROS_INFO("%s: Succeeded START", action_name_.c_str());
-      cv::Mat image = cv::imread("./src/img/1.jpg", CV_LOAD_IMAGE_COLOR);
-      //cv::Mat image = cv::imread("./src/img/t1.png", CV_LOAD_IMAGE_COLOR);
+      //cv::Mat image = cv::imread("./src/img/1.jpg", CV_LOAD_IMAGE_COLOR);
+      cv::Mat image = cv::imread("./src/img/t1.png", CV_LOAD_IMAGE_COLOR);
+
+      if (image.empty()) {
+        as_.setAborted(result_);
+        ROS_INFO("%s: Aborted, could not load the image", action_name_.c_str());
+        return;
+      }
+      else {
+
+      }
+
       int rows = image.rows;
       int cols = image.cols;
       ROS_INFO("Image is %d X %d", rows, cols);
@@ -79,11 +88,48 @@ public:
         }
       }
 
+      int common_count = 0;
+      int common_key = -1;
+      std::map<int, int>::iterator it;
+      std::vector<int> common_color;
+
+      // Find most common
+      if (goal->mode) {
+        common_count = 0;
+        for (it = color_counts.begin(); it != color_counts.end(); it++) {
+          if (it->second > common_count) {
+            common_count = it->second;
+            common_key = it->first;
+          }
+        }
+      }
+      // Find least common
+      else {
+        common_count = rows * cols + 1;
+        for (it = color_counts.begin(); it != color_counts.end(); it++) {
+          if (it->second < common_count) {
+            common_count = it->second;
+            common_key = it->first;
+          }
+        }
+      }
+
+      common_color.push_back(common_key % 256);
+      common_color.push_back((common_key / 256) % 256);
+      common_color.push_back((common_key / 256) / 256);
+      ROS_INFO("%s Key:%d, color:%d,%d,%d, count:%d",
+        (goal->mode ? "MAX" : "MIN"),
+        common_key,
+        common_color[0],
+        common_color[1],
+        common_color[2],
+        common_count);
+
+
       int max_count = 0;
       int max_key = -1;
       int min_count = rows * cols + 1;
       int min_key = -1;
-      std::map<int, int>::iterator it;
       for (it = color_counts.begin(); it != color_counts.end(); it++) {
         if (it->second > max_count) {
           max_count = it->second;
@@ -107,36 +153,22 @@ public:
       ROS_INFO("Min Key:%d, color:%d,%d,%d, count:%d", min_key, min_color[0], min_color[1], min_color[2], min_count);
 
       result_.color.clear();
-      result_.color.push_back((float)max_color[0]);
-      result_.color.push_back((float)max_color[1]);
-      result_.color.push_back((float)max_color[2]);
+      result_.color.push_back((float)common_color[0]);
+      result_.color.push_back((float)common_color[1]);
+      result_.color.push_back((float)common_color[2]);
 
-      ROS_INFO("%s: Succeeded SET", action_name_.c_str());
       // set the action state to succeeded
       as_.setSucceeded(result_);
-
-      for (int i = 0; i < 3; i++) {
-        ROS_INFO("%d. %f",i,result_.color[i]);
-      }
-
       ROS_INFO("%s: Succeeded END", action_name_.c_str());
     }
   }
-
-
 };
-
-
 
 int main(int argc, char** argv)
 {
-  ROS_INFO("Init IA server");
   ros::init(argc, argv, "image_analzer_server");
-  ROS_INFO("Constructor IA server");
   ImageAnalyzerAction imageAnalyzerServer("image_analzer");
-  ROS_INFO("Created IA server instance");
   ros::spin();
-  ROS_INFO("IA server start spin");
 
   return 0;
 }
