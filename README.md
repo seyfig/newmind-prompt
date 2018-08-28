@@ -36,6 +36,11 @@ rosdep update
 mkdir catkin_ws
 ```
 
+### 2.2. Install Opencv
+```
+sudo	apt-get	install	ros-kinetic-opencv3
+```
+
 ## 3. Create a Catkin Workspace
 ```
 source /opt/ros/kinetic/setup.bash
