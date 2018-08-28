@@ -1,4 +1,5 @@
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <actionlib/server/simple_action_server.h>
 #include <newmind_test/ImageAnalyzerAction.h>
 #include <opencv2/highgui/highgui.hpp>
@@ -51,8 +52,13 @@ public:
 
     if(success)
     {
+      std::string path = ros::package::getPath("newmind_test");
+
       //cv::Mat image = cv::imread("./src/img/1.jpg", CV_LOAD_IMAGE_COLOR);
-      cv::Mat image = cv::imread("./src/img/t1.png", CV_LOAD_IMAGE_COLOR);
+      //cv::Mat image = cv::imread("/home/ruser/catkin_ws/src/img/t1.png", CV_LOAD_IMAGE_COLOR);
+
+      //cv::Mat image = cv::imread(path + "/../img/t1.png", CV_LOAD_IMAGE_COLOR);
+      cv::Mat image = cv::imread(path + "/../img/1.jpg", CV_LOAD_IMAGE_COLOR);
 
       if (image.empty()) {
         as_.setAborted(result_);
